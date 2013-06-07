@@ -1,3 +1,3 @@
-# [Locomotive Validate](http://locomotive.ca)
+# [Locomotive Validate]()
 
 Small plugin to validate our forms
