@@ -18,29 +18,56 @@
             var $input = $this.is("input");
 
 
-
             required_fields.each(function(i,e) {    
                 var $this = $(this); 
-               
-                //simple inputs 
-                if ($this.is("input")) {                    
+
+                //are we talking about inputs because it might be a select
+                if ($this.prop("tagName") == "INPUT") {
+
+                   //is it a text input? 
+                   if ($this.attr('type') == 'text') { 
                         
-                    console.log($this.val());
+                        //basic validation for text inputs
+                        if ($this.val() === '' || !$this.val()) {
 
-                    if ($this.val() == '' || !$this.val()) {
+                            $this.addClass('error-input');
+                        }
 
-                        $this.addClass('error-input');
+                        else {
+                            $this.removeClass('error-input');
+                        }   
+
                     }
 
-                    else {
-                        $this.removeClass('error-input');
-                    }                  
-                }; 
+                    //is it a radio input? 
+                    if ($this.attr('type') == 'radio') { 
+                        
+                        var $name =  $this.attr("name");
+                        var $allradios =  form.find('input[name=' + $name + ']')
+                        //console.log($name);
+                       
+                        $allradios.each(function() { 
+                            
+                           var $this = $(this); 
+                            
+                           if($allradios.is(":checked")) {
 
+                                $this.parents(".radio").removeClass("error");
+                           }
 
-                //select
-                if ($this.is("select")) {
-                   if ($this.find("option:selected").val() == "") {   
+                           else {
+                                $this.parents(".radio").addClass("error");
+                           }
+                       });
+
+                    }
+                }
+
+                //are we talking about selects because it might be an input
+                if ($this.prop("tagName") == "SELECT") {
+
+                    //the first option of the list should not have a value...
+                    if ($this.find("option:selected").val() === "") {   
 
                         $this.parents(".selector").addClass("error-select");
                     } 
@@ -48,27 +75,6 @@
                     else {
                        
                         $this.parents(".selector").removeClass("error-select");
-                    }        
-                   
-                }
-
-                //radio
-                if ($this.is(":radio")) {
-                   
-                    if ($radioinput.is(':checked')){
-
-                        $radioinput.parents(".radio").removeClass("error");
-                       // $this.parents('.note').find('label').css("color", "#6c413b").removeClass("error");
-                       //$this.parents('.note').find('label').data('checked', true);
-                    }
-
-                    else {
-
-                        $radioinput.parents(".radio").addClass("error");
-
-                        if (!$this.parents('.note').find('label').data('checked')) {
-                           // $this.parents('.note').find('label').css("color", "#a62122").addClass("error");
-                        };                        
                     }                   
                 }
             });     

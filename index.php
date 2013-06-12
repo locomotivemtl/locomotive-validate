@@ -60,16 +60,16 @@
                     <label data-message="fgdg">Apparence des employ&eacute;s*</label>
                 </div>
                 <div class="one columns">
-                    <input type="radio" class="required"  name="appearance" value="Excellent"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Excellent' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio" name="radio1" class="required"   value="Excellent"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Excellent' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns">
-                    <input type="radio"  name="appearance" value="Bon"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Bon' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio1" value="Bon"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Bon' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns">
-                    <input type="radio"  name="appearance" value="Passable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Passable' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio1" value="Passable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Passable' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns omega">
-                    <input type="radio"  name="appearance" value="Inacceptable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Inacceptable' ? ' checked="checked"':''; ?> data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio1" value="Inacceptable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Inacceptable' ? ' checked="checked"':''; ?> data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
             </div>
 
@@ -79,16 +79,16 @@
                     <label data-message="fgdg">Apparence des employ&eacute;s*</label>
                 </div>
                 <div class="one columns">
-                    <input type="radio" class="required"  name="appearance" value="Excellent"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Excellent' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio" name="radio2" class="required"   value="Excellent"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Excellent' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns">
-                    <input type="radio"  name="appearance" value="Bon"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Bon' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio2" value="Bon"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Bon' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns">
-                    <input type="radio"  name="appearance" value="Passable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Passable' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio2" value="Passable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Passable' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns omega">
-                    <input type="radio"  name="appearance" value="Inacceptable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Inacceptable' ? ' checked="checked"':''; ?> data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio2" value="Inacceptable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Inacceptable' ? ' checked="checked"':''; ?> data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
             </div>
 
@@ -98,16 +98,16 @@
                     <label data-message="fgdg">Apparence des employ&eacute;s*</label>
                 </div>
                 <div class="one columns">
-                    <input type="radio" class="required"  name="appearance" value="Excellent"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Excellent' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio" name="radio3" class="required" value="Excellent"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Excellent' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns">
-                    <input type="radio"  name="appearance" value="Bon"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Bon' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio3" value="Bon"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Bon' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns">
-                    <input type="radio"  name="appearance" value="Passable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Passable' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio3" value="Passable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Passable' ? ' checked="checked"':''; ?>  data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
                 <div class="one columns omega">
-                    <input type="radio"  name="appearance" value="Inacceptable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Inacceptable' ? ' checked="checked"':''; ?> data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
+                    <input type="radio"  name="radio3" value="Inacceptable"<?php echo isset($_REQUEST['appearance']) && $_REQUEST['appearance']== 'Inacceptable' ? ' checked="checked"':''; ?> data-validation="required" data-message="Veuillez r&eacute;pondre &agrave; la question">
                 </div>
             </div>
 
