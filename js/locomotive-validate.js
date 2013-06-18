@@ -1,7 +1,6 @@
 (function ( $ ) {
  
-    $.fn.lvalidate = function() {
-
+    $.fn.lvalidate = function(options) {
 
         this.click(function(e) {
             e.preventDefault();
@@ -16,7 +15,13 @@
             var $radioinput = $this.parents(".radio"); 
             var $radiolabel = $this.parents('label');
             var $input = $this.is("input");
-
+            
+            var parametres=$.extend(defauts, options); 
+            var defauts=
+            {
+                "popup"   : false,
+                "callback": null
+            };
 
             required_fields.each(function(i,e) {    
                 var $this = $(this); 
@@ -43,7 +48,7 @@
                     if ($this.attr('type') == 'radio') { 
                         
                         var $name =  $this.attr("name");
-                        var $allradios =  form.find('input[name=' + $name + ']')
+                        var $allradios =  form.find('input[name=' + $name + ']');
                         //console.log($name);
                        
                         $allradios.each(function() { 
@@ -61,8 +66,36 @@
                        });
 
                     }
+
+                  //validating emails
+                    if ($this.attr('type') == 'email') { 
+                        var pattern = /^\b[A-Z0-9._%\-]+@[A-Z0-9.\-]+\.[A-Z]{2,4}\b$/i;
+
+                        if(!pattern.test($this.val()))
+                        {
+                            $this.addClass('error-email');
+                        }
+
+                        else {
+                            $this.removeClass('error-email');
+                        }   
+                    }
                 }
 
+                //validating textarea
+                if ($this.prop("tagName") == "TEXTAREA") {
+
+                    //basic validation for text inputs
+                    if ($this.val() === '' || !$this.val()) {
+
+                        $this.addClass('error-textarea');
+                    }
+
+                    else {
+                        $this.removeClass('error-textarea');
+                    }   
+
+                }
                 //are we talking about selects because it might be an input
                 if ($this.prop("tagName") == "SELECT") {
 
@@ -77,7 +110,14 @@
                         $this.parents(".selector").removeClass("error-select");
                     }                   
                 }
-            });     
+            }); 
+
+            //ajouté un callback pour ajouter tes propres trucs
+           if(parametres.callback)
+           {
+              parametres.callback();
+           }   
+
         }); 
     };
  

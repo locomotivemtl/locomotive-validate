@@ -33,6 +33,26 @@
                 <input type="text" class="required"></input>
             </label>
 
+             <label>
+                email
+                <input type="email" class="required"></input>
+            </label>           
+
+             <label>
+                email
+                <input type="email" class="required"></input>
+            </label>     
+             <label>
+                email
+                <textarea class="required"></textarea>
+            </label>  
+
+             <label>
+                email
+                <textarea class="required"></textarea>
+            </label>   
+
+
             <select class="required">
               <option value="">title</option>
               <option value="bla">Orange</option>
@@ -135,17 +155,17 @@
 
 
     
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
-                
-            $(".lvalidate").lvalidate();
-            $("input[type=radio], select").uniform();                   
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                    
+                $(".lvalidate").lvalidate({"callback" : function(){
+                    alert('fonction callback');
+                }});     
 
-        });    
-    </script>
+                $("input[type=radio], select").uniform();                   
 
-
-    
+            });    
+        </script>    
 
 
     </body>
