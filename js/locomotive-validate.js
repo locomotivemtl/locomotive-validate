@@ -10,7 +10,9 @@
             var required_fields = form.find('.required');
 
             var error = false;
-
+			
+			
+			// Unusefull ? @todo REMOVE
             var $select     = $this.parents(".selector"); 
             var $radioinput = $this.parents(".radio"); 
             var $radiolabel = $this.parents('label');
@@ -110,6 +112,7 @@
                         $this.parents(".selector").removeClass("error-select");
                     }                   
                 }
+				// @todo type = CHECKBOX
             }); 
 
             //ajouté un callback pour ajouter tes propres trucs
