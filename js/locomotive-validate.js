@@ -11,13 +11,7 @@
 
             var error = false;
 			
-			
-			// Unusefull ? @todo REMOVE
-            var $select     = $this.parents(".selector"); 
-            var $radioinput = $this.parents(".radio"); 
-            var $radiolabel = $this.parents('label');
-            var $input = $this.is("input");
-            
+           
             var parametres=$.extend(defauts, options); 
             var defauts=
             {
