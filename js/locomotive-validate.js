@@ -10,7 +10,7 @@
             var required_fields = form.find('.required');
 
             var error = false;
-			
+
            
             var parametres=$.extend(defauts, options); 
             var defauts=
@@ -31,11 +31,11 @@
                         //basic validation for text inputs
                         if ($this.val() === '' || !$this.val()) {
 
-                            $this.addClass('error-input');
+                            $this.addClass('error');
                         }
 
                         else {
-                            $this.removeClass('error-input');
+                            $this.removeClass('error');
                         }   
 
                     }
@@ -69,11 +69,11 @@
 
                         if(!pattern.test($this.val()))
                         {
-                            $this.addClass('error-email');
+                            $this.addClass('error');
                         }
 
                         else {
-                            $this.removeClass('error-email');
+                            $this.removeClass('error');
                         }   
                     }
                 }
@@ -84,11 +84,11 @@
                     //basic validation for text inputs
                     if ($this.val() === '' || !$this.val()) {
 
-                        $this.addClass('error-textarea');
+                        $this.addClass('error');
                     }
 
                     else {
-                        $this.removeClass('error-textarea');
+                        $this.removeClass('error');
                     }   
 
                 }
@@ -98,15 +98,15 @@
                     //the first option of the list should not have a value...
                     if ($this.find("option:selected").val() === "") {   
 
-                        $this.parents(".selector").addClass("error-select");
+                        $this.parents(".selector").addClass("error");
                     } 
 
                     else {
                        
-                        $this.parents(".selector").removeClass("error-select");
+                        $this.parents(".selector").removeClass("error");
                     }                   
                 }
-				// @todo type = CHECKBOX
+                // @todo type = CHECKBOX
             }); 
 
             //ajouté un callback pour ajouter tes propres trucs
