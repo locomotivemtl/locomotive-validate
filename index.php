@@ -15,6 +15,10 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+		<style>
+		.error { border: 2px solid red; }
+		form.error { border: 3px solid blue; }
+		</style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -22,7 +26,7 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <form>  
+		<form class="lvalidate" action="#" method="post" id="download_form">
             <label>
                 hey
                 <input type="text" class="required"></input>
@@ -132,7 +136,7 @@
             </div>
 
             
-            <input class="lvalidate" type="submit"></input>
+            <input type="submit" />
 
 
         </form>
@@ -157,10 +161,34 @@
     
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function() {
-                    
-                $(".lvalidate").lvalidate({"callback" : function(){
-                    alert('fonction callback');
-                }});     
+			
+				/**
+				*	lValidate
+				*	onError applies on ONE input
+				*	onSuccess applies on ONE input
+				*	valid is called when the form is valid.
+				*	invalid is called when the form is invalid.
+				*
+				*	The reason the callbacks are done this way is you can
+				*	act differently on each inputs and then submit the form.
+				*
+				*/
+                $(".lvalidate").lvalidate({
+					onError : function(elem,code) {
+						elem.addClass('error');
+					},
+					onSuccess : function(elem,code) {
+						elem.removeClass('error');
+					},
+					valid : function(form) {
+						// All ok? Then submit the form!
+						// Or send by ajax, whatever
+						form.submit();
+					},
+					invalid : function(form) {
+						form.addClass("error");
+					}
+				});     
 
                 $("input[type=radio], select").uniform();                   
 
