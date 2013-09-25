@@ -8,6 +8,7 @@
 	*	@todo Rules
 	*
 	*/
+
     $.fn.lvalidate = function(options) {
 		/**
 		*	Default settings
@@ -17,11 +18,17 @@
             // "uniform" : false, // You decide the error handlings in the instanciation of the plugin.
             // "popup"   : false, // You decide the error handlings in the instanciation of the plugin.
 			"requiredClass":"required",
-			"onError": function(e) {
+			"similarClass":"similar",
+			"onError": function(e,c) {
 			
 			},
-			"onSuccess": function(e) {
+			"onSuccess": function(e,c) {
 			
+			},
+			"onFirstError" : function(elem,code) {
+			},
+			"custom_validation" : function(lvalidate) {
+				return true;
 			}
         };
 		
@@ -45,7 +52,7 @@
 		*	On submit, we wanna prevent default (the actual submit.)
 		*	Validation should occur there
 		*/
-		$(this).find('input[type=submit]').click(function(e) {
+		$(this).find('input[type=submit]').click(function(e) {	
 			e.preventDefault();
 			var form = $(this).parents('form');
 			var lvalidate = form.data('lvalidate');
@@ -90,7 +97,7 @@
 *	@version 2013-08-15
 */
 var Locomotive_Validate = function(opts){
-	
+
 	/**
 	*	{jQuery Object} Form this.obj
 	*	Contains the form
@@ -105,92 +112,146 @@ var Locomotive_Validate = function(opts){
 	
 	this.validate = function() {
 		// Fits the old API
-		var form = this.obj;
+		this.form = this.obj;
 		
 		// Required fields comes from the requiredClass setting
-		var required_fields = form.find('.'+this.settings.requiredClass);
+		var required_fields = this.form.find('.'+this.settings.requiredClass);
+		var similar_fields = this.form.find('.'+this.settings.similarClass);
 		
 		// Scoping
 		var that = this;
 		
 		// Error var
-		var error = false;
+		var no_error = true;
 		
+		var first_input = true;
 		// Looping the inputs.
+
 		required_fields.each(function(i,e) {
-			error = that.validate_input($(this));
+			var tmp = that.validate_input($(this));
+			no_error = no_error && !tmp;
+
+			if (!no_error && first_input) {
+				first_input = false;
+				that.settings.onFirstError($(this),"First Error");
+			}
 		});
+		// Check required_fields FIRST
+		// if (!error) {
+			// Looping the inputs.
+			similar_fields.each(function(i,e) {
+				var tmp = that.validate_input($(this),'similar');
+				no_error = no_error && !tmp;
+
+				if (!no_error && first_input) {
+					first_input = false;
+					that.settings.onFirstError($(this),"First Error");
+				}
+			});
+		// }
+
+
+		// if(no_error) {
+			// Last logic -> the user appended logic.
+			// Only if there are no errors yet.
+			if (typeof this.settings.custom_validation == 'function') {
+				var tmp = this.settings.custom_validation(this);
+				// @todo CHANGE LOGIC
+				// In this one we need a "TRUE" response instead of FALSE
+				no_error = no_error && tmp;
+				if (!no_error && first_input) {
+					first_input = false;
+					that.settings.onFirstError(false,"Custom Error");
+				}
+			}
+
+		// }
 		
 		// If there's an error, heres the callback
 		// @todo create an Error object.
-		if (error) {
+		if (!no_error) {
 			this.settings.invalid(this.obj);
 		} else {
 			this.settings.valid(this.obj);
 		}
 	};
 
-	this.validate_input = function(input) {
+	this.validate_input = function(input, option) {
+		if (!option) {
+			option = "required";
+		};
 		var $this = input;
 		// Scoping
 		var that = this;
 		
-		// Tagname, type and other necessary stuff
-		var tagName = $this.prop("tagName");
-		var type = $this.attr('type');
-		var name = $this.attr('name');
-		
-		
-		//are we talking about inputs because it might be a select
-		if (tagName == "INPUT") {
-		   //is it a text input? 
-		   if (type == 'text') { 
+		if (option == "required") {
+			// Tagname, type and other necessary stuff
+			var tagName = $this.prop("tagName");
+			var type = $this.attr('type');
+			var name = $this.attr('name');
+			// console.log(name);
+			
+			//are we talking about inputs because it might be a select
+			if (tagName == "INPUT") {
+			   //is it a text input? 
+			   if (type == 'text' || type == 'password') { 
+					if (this.isEmpty($this)) {
+						return that.error($this,'empty');
+					}
+					return that.success($this,'ok');
+				}
+				//is it a radio input? 
+				if (type == 'radio') { 
+					// Gets similar radio button (same name)
+					// @todo we wanna interact with ALL radios or one at a time?
+					var $allradios =  this.obj.find('input[name=' + name + ']');
+					if (this.isRadioEmpty($allradios)) {
+						return that.error($allradios,'empty');
+					}
+					return that.success($allradios,'ok');
+				}
+
+				//validating emails
+				if (type == 'email') { 				
+					if (!this.isValidEmail($this)) {
+						return that.error($this,'invalid_mail');
+					}
+					return that.success($this,'ok');
+				}
+
+			}
+
+
+			//validating textarea
+			if (tagName == "TEXTAREA") {
 				if (this.isEmpty($this)) {
 					return that.error($this,'empty');
 				}
 				return that.success($this,'ok');
 			}
-			//is it a radio input? 
-			if (type == 'radio') { 
-				// Gets similar radio button (same name)
-				// @todo we wanna interact with ALL radios or one at a time?
-				var $allradios =  this.obj.find('input[name=' + name + ']');
-				if (this.isRadioEmpty($allradios)) {
-					return that.error($allradios,'empty');
+			
+			//are we talking about selects because it might be an input
+			if (tagName == "SELECT") {
+				//the first option of the list should not have a value...
+				if (this.isSelectEmpty($this)) {   
+					return that.error($this,'unselected');
+				} 
+				return that.success($this,'ok');                 
+			}
+		}
+		if (option == "similar") {
+			if ($this.attr("data-related")) {
+				var related = $this.attr("data-related");
+				var related_inputs = this.form.find("[name="+related+"]");
+
+				if (this.isDifferent([$this,related_inputs])) {
+					return that.error(related_inputs,'similar',$this);
 				}
-				return that.success($allradios,'ok');
-			}
+				return that.success(related_inputs,'Similar');
 
-			//validating emails
-			if (type == 'email') { 
-				if (!this.isValidEmail($this)) {
-					return that.error($this,'invalid_mail');
-				}
-				return that.success($this,'ok');
-			}
-		}
-
-
-		//validating textarea
-		if (tagName == "TEXTAREA") {
-			if (this.isEmpty($this)) {
-				return that.error($this,'empty');
-			}
-			return that.success($this,'ok');
-		}
-		
-		//are we talking about selects because it might be an input
-		if (tagName == "SELECT") {
-			//the first option of the list should not have a value...
-			if (this.isSelectEmpty($this)) {   
-				return that.error($this,'unselected');
-				// These should be in the error function
-				// $this.parent('label').addClass("error");
-				// $this.parents(".selector").addClass("error");
-			} 
-			return that.success($this,'ok');                 
-		}
-		
+			};
+			return that.success($this,"no-related-elements");
+		};
 	}
 	
 	this.error = function(elem,code) {
@@ -224,7 +285,7 @@ var Locomotive_Validate = function(opts){
 	
 	// Check if val == '';
 	this.isEmpty = function(elem) {
-		return (elem.val() == '' || !elem.val());
+		return (elem.val() == '' || !elem.val() || elem.val() == '-1');
 	}
 	
 	// Email validation
@@ -257,6 +318,72 @@ var Locomotive_Validate = function(opts){
 		return radioError;
 	}
 
+	/** Can only be an array
+	* @param [array] aElem 
+	* @return {boolean} [true if all the object are the same]
+	*/
+	this.isDifferent = function(aElem) {
+		var sameError = false;
+		var sameValueFound = "";
+		var that = this;
+
+		for (var i = 0; i < aElem.length; i++) {
+		// aElem.each(function(i,e){
+			if (i == 0) {
+				sameValueFound = that.get_value(aElem[i]);
+				// sameValueFound = that.get_value($(this));
+				// return true;
+				continue;
+			}
+			if (sameValueFound != that.get_value(aElem[i])) {
+			// if (sameValueFound != that.get_value($(this))) {
+				sameError = true;
+			};
+
+		}
+		// });
+
+		return sameError;	
+	}
+
+	/**
+	* 
+	*/
+	this.get_value = function(elem) 
+	{
+		var $this = elem;
+		var tagName = $this.prop("tagName");
+		var type = $this.attr('type');
+		var name = $this.attr('name');
+		
+		
+		//are we talking about inputs because it might be a select
+		if (tagName == "INPUT") {
+		   //is it a text input? 
+			if (type == 'text' || type == 'email' || type == 'password') { 
+				return $this.val();
+		 	}
+			//is it a radio input? 
+			if (type == 'radio') { 
+				var $allradios =  this.obj.find('input[name=' + name + ']');
+				
+				$allradios.each(function(i,e){
+					if ($(this).is(":checked")) {
+						return $this.val();
+					};
+				});
+				return "";
+			}
+
+		}
+		//validating textarea
+		if (tagName == "TEXTAREA") {
+			return $this.val();
+		}
+		//are we talking about selects because it might be an input
+		if (tagName == "SELECT") {
+            return $this.find("option:selected").val();
+		}	
+
+	}
 }
-
-
