@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Locomotive Validate</title>
+        <meta name="description" content="Locomotive validate">
+        <link rel="stylesheet" href="css/screen.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+            
+            <h1>Locomotive Validate</h1>
+
+            <h2>Basic form</h2>
+    		<form class="lvalidate example1" method="post">
+                <label>
+                     <span class="label">Text input</span>
+                    <input type="text" class="required">
+                </label>
+
+                 <label>
+                    <span class="label">Email input</span>
+                    <input type="email" class="required">
+                </label>           
+  
+                 <label>
+                   <span class="label">Textarea</span>
+                    <textarea class="required"></textarea>
+                </label>   
+
+                <span class="label">Select</span>
+                <select class="required">
+                  <option value="">Select</option>
+                  <option value="option1">Option 1</option>
+                  <option value="option1">Option 2</option>
+                  <option value="option1">Option 3</option>
+                </select>
+
+                <div class="radios cf">
+                    <span class="label">Radio</span>
+                    <label>Option1
+                        <input type="radio"  name="radio" class="required" value="option1">
+                    </label>
+
+                    <label>Option2
+                        <input type="radio"  name="radio" value="option2">
+                    </label>
+
+                    <label>Option3
+                        <input type="radio"  name="radio" value="option3">   
+                     </label> 
+
+                    <label>Option4
+                        <input type="radio"  name="radio" value="option3">   
+                     </label>                                         
+                </div> 
+                
+                <!-- 
+                    @todo checkbox not yet suported
+                    <div class="checkbox cf">
+                        <span class="label">Checkbox</span>
+                        <label>Option1
+                            <input type="checkbox"  name="checkbox" class="required" value="option1">
+                        </label>
+
+                        <label>Option2
+                            <input type="checkbox"  name="checkbox" value="option2">
+                        </label>
+
+                        <label>Option3
+                            <input type="checkbox"  name="checkbox" value="option3">   
+                         </label> 
+
+                        <label>Option4
+                            <input type="checkbox"  name="checkbox" value="option3">   
+                         </label>                                         
+                    </div>  
+                -->              
+                
+                <input type="submit" class="submit" />
+
+
+            </form>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="js/locomotive-validate.js"></script>
+        <script src="js/jquery.uniform.min.js"></script>
+
+    
+        <script type="text/javascript">
+            $(document).ready(function() {
+			
+				/**
+				*	lValidate
+				*	onError applies on ONE input
+				*	onSuccess applies on ONE input
+				*	valid is called when the form is valid.
+				*	invalid is called when the form is invalid.
+				*
+				*	The reason the callbacks are done this way is you can
+				*	act differently on each inputs and then submit the form.
+				*
+				*/
+                $(".lvalidate").lvalidate({
+					onError : function(elem,code) {
+						elem.addClass('error');
+
+                        //radio validation
+                        if (elem.is(':radio')) {
+                            var $radio = elem.parent();     
+                            $radio.addClass("error");
+                        }
+
+
+					},
+					onSuccess : function(elem,code) {
+						elem.removeClass('error');
+
+                        //radio validation
+                        if (elem.is(':radio')) {
+                            var $radio = elem.parent();     
+                            $radio.removeClass("error");
+                        }
+
+					},
+					valid : function(form) {
+						// All ok? Then submit the form!
+						// Or send by ajax, whatever
+						form.submit();
+					},
+					invalid : function(form) {
+						form.addClass("error");
+					}
+				});  
+
+
+
+                $(".example2 input[type=radio],.example2a select").uniform();                   
+
+            });    
+        </script>    
+
+
+    </body>
+</html>

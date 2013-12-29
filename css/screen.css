@@ -1,0 +1,148 @@
+/*reset*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+
+/*begin project styles*/
+
+/*error handeling*/
+
+.error { border: 2px solid red; }
+form.error {   background: rgba(255, 0, 0, 0.2);  }
+
+body {
+	padding:20px 0;
+	background-image: url(../img/bg-pattern.png);
+}
+
+.container {
+	width:500px;
+	margin:0 auto;
+}
+
+
+label, .label, select {
+	margin:0 0 15px 0;
+}
+
+
+h1 {
+	text-align:center;
+	color:white;
+	font-family:arial;
+	font-weight:bold;
+	font-size:48px;
+}
+
+h2 {
+	margin:50px 0 20px 0;
+	text-align:center;	
+	color:white;
+	font-family:arial;
+	font-weight:bold;
+	font-size:32px;
+}
+
+form {
+	width: 100%;
+	padding:20px;
+
+	border: 2px solid transparent;
+}
+
+label, .label  {
+	display:block;
+	font-family:arial;
+	font-size:18px;	
+}
+
+label span {
+	display:block;
+}
+
+input, textarea {
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+input[type="radio"], input[type="checkbox"] {
+	width:auto;
+}
+
+.radios label, .checkbox label {
+	font-size:12px;
+}
+
+textarea {
+	height:200px;
+}
+
+select {
+	width:500px;
+	height:60px;
+}
+
+.submit {
+	border:none;
+	background:white;
+	cursor:pointer;
+	width:50%;
+	display:block;
+	margin:0 auto;
+}
+
+
