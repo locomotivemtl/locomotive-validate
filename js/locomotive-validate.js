@@ -66,7 +66,7 @@
 		*	On submit, we wanna prevent default (the actual submit.)
 		*	Validation should occur there
 		*/
-		$(this).on('click','input[type=submit]',function(e) {
+		$(this).on('click','[type=submit]',function(e) {
 			e.preventDefault();
 			var form = $(this).parents('form');
 			var lvalidate = form.data('lvalidate');
