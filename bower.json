@@ -1,0 +1,29 @@
+{
+  "name": "Charcoal-Validate",
+  "version": "0.2.0",
+  "license": "MIT",
+  "description": "jQuery plugin to validate forms with custom rules.",
+  "homepage": "https://github.com/locomotivemtl/locomotive-validate",
+  "authors": [
+    "Mathieu Ducharme <mat@locomotive.ca>",
+    "Stephen Bégay <stephen@locomotive.ca>",
+    "Benjamin Roch <ben@locomotive.ca>",
+    "Chauncey McAskill <chauncey@locomotive.ca>"
+  ],
+  "main": "dist/charcoal.validate.min.js",
+  "keywords": [
+    "charcoal",
+    "form",
+    "validation",
+    "jquery"
+  ],
+  "ignore": [],
+  "dependencies": {
+    "jquery": "~1.11"
+  },
+  "devDependencies": {
+    "qunit": "~1.14.0",
+    "jquery.uniform": "~2.1.2",
+    "google-code-prettify": "~1.0.3"
+  }
+}

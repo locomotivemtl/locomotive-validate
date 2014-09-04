@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Locomotive Validate</title>
-		<meta name="description" content="Locomotive validate">
+		<title>Charcoal Validate</title>
+		<meta name="description" content="Charcoal Validate - Demo 01">
 		<link rel="stylesheet" href="css/screen.css">
 	</head>
 	<body>
@@ -117,12 +117,19 @@ $(document).ready(function() {
 </pre>
 		</div>
 
-		<script src="js/jquery-1.10.2.min.js"></script>
-		<script src="js/locomotive-validate.js"></script>
-		<script src="js/jquery.uniform.min.js"></script>
-		<script src="js/prettify.js"></script>
+		<!-- jQuery from CDN, if fail then local version (downloaded automatically from bower) -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../libs/jquery/dist/jquery.min.js"><\/script>')</script>
+		
+		<script src="../libs/jquery.uniform/jquery.uniform.min.js"></script>
+		<script src="../libs/google-code-prettify/bin/prettify.min.js"></script>
+
+		<!-- Our actual script -->
+		<script src="../dist/charcoal.validate.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
+
+				"use strict";
 
 				window.prettyPrint && prettyPrint();
 
@@ -162,6 +169,7 @@ $(document).ready(function() {
 					valid: function (form) {
 						// All ok? Then submit the form!
 						// Or send by ajax, whatever
+						alert('Form valid!');
 						form.submit();
 					},
 					invalid: function (form) {
@@ -169,7 +177,7 @@ $(document).ready(function() {
 					}
 				}); 
 
-				$(".example2 input[type=radio],.example2a select").uniform();
+				$("input[type=radio],select").uniform();
 			});
 		</script>
 	</body>
