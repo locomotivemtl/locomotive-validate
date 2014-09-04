@@ -34,6 +34,12 @@
 			}
         };
 		
+		/**
+		* If "options" are passed as a string
+		* Means we have a command
+		*
+		* add more here
+		*/
 		if (typeof options == 'string' && $(this).data('lvalidate')) {
 			var obj = $(this).data('lvalidate');
 			switch (options) {
@@ -46,6 +52,7 @@
 				break;
 			}
 		}
+
 		/**
 		*	Extended settings
 		*/
@@ -75,6 +82,7 @@
 			// All the handlers for success or error are within the "lvalidate" datas.
 			lvalidate.validate();
 		});
+
 		return this;
 
     };
@@ -112,8 +120,6 @@
 *	@todo Customize callbacks and rules
 *	@version 2013-08-15
 */
-
-
 var Locomotive_Validate = function(opts){
 
 	/**
@@ -128,10 +134,7 @@ var Locomotive_Validate = function(opts){
 	// Will contain invalid inputs.
 	this.invalidInputs = Array();
 	
-	this.validate = function(opts) {
-		if (!opts) {
-
-		}
+	this.validate = function() {
 		// Fits the old API
 		this.form = this.obj;
 		
@@ -161,26 +164,27 @@ var Locomotive_Validate = function(opts){
 			}
 		});
 
-		similar_fields.each(function(i,e) {
-			var tmp = that.validate_input($(this),'similar');
-			no_error = no_error && !tmp;
+		// Check required_fields FIRST
+		// if (!error) {
+			// Looping the inputs.
+			similar_fields.each(function(i,e) {
+				var tmp = that.validate_input($(this),'similar');
+				no_error = no_error && !tmp;
 
-			if (!no_error && first_input) {
-				first_input = false;
-				that.settings.onFirstError($(this),"First Error");
-			}
-		});
-
-		var group_fields_success;
-		required_group_fields.each(function(i,e) {
-			var _this = $(this);
-			var datas = _this.data();
-			var tmp = that.validate_input($(this),'required-group',datas);
-			no_error = no_error && !tmp;
 				if (!no_error && first_input) {
 					first_input = false;
 					that.settings.onFirstError($(this),"First Error");
 				}
+			});
+		// }
+
+		var group_fields_success;
+		required_group_fields.each(function(i,e) {
+			// var tmp = that.validate_input($(this));
+			var _this = $(this);
+			var datas = _this.data();
+			var tmp = that.validate_input($(this),'required-group',datas);
+			no_error = no_error && !tmp;
 		});
 
 		regex_fields.each(function(i,e) {
@@ -189,23 +193,23 @@ var Locomotive_Validate = function(opts){
 			var datas = _this.data();
 			var tmp = that.validate_input($(this),'regex',datas);
 			no_error = no_error && !tmp;
-				if (!no_error && first_input) {
-					first_input = false;
-					that.settings.onFirstError($(this),"First Error");
-				}
 		});
 
-		if (typeof this.settings.custom_validation == 'function') {
-			var tmp = this.settings.custom_validation(this);
-			// @todo CHANGE LOGIC
-			// In this one we need a "TRUE" response instead of FALSE
-			no_error = no_error && tmp;
-			if (!no_error && first_input) {
-				first_input = false;
-				that.settings.onFirstError(false,"Custom Error");
+		 if(no_error) {
+			// Last logic -> the user appended logic.
+			// Only if there are no errors yet.
+			if (typeof this.settings.custom_validation == 'function') {
+				var tmp = this.settings.custom_validation(this);
+				// @todo CHANGE LOGIC
+				// In this one we need a "TRUE" response instead of FALSE
+				no_error = no_error && tmp;
+				if (!no_error && first_input) {
+					first_input = false;
+					that.settings.onFirstError(false,"Custom Error");
+				}
 			}
-		}
 
+		 }
 		
 		// If there's an error, heres the callback
 		// @todo create an Error object.
@@ -225,6 +229,11 @@ var Locomotive_Validate = function(opts){
 		var that = this;
 		var datas = $this.data();
 
+
+		if (typeof datas.luhn != 'undefined') {
+			rule = "luhn";
+		}
+
 		if (typeof datas.regexp != 'undefined') {
 			rule = "regexp";
 		}
@@ -232,6 +241,13 @@ var Locomotive_Validate = function(opts){
 		if (rule == "regexp") {
 			if (!this.matchRegExp($this,datas)) {
 				return that.error($this,'regex_err');
+			}
+			return that.success($this,'ok');
+		}
+
+		if (rule == "luhn") {
+			if (!this.check_luhn(this.get_value($this),datas)) {
+				return that.error($this,'luhn_error');
 			}
 			return that.success($this,'ok');
 		}
@@ -561,4 +577,36 @@ var Locomotive_Validate = function(opts){
 		}	
 
 	}
-}
+
+	/**
+	*
+	*/
+	this.check_luhn = function(cc_number)
+	{
+		// takes the form field value and returns true on valid number
+		if (!cc_number) {
+			return false;
+		}
+		// accept only digits, dashes or spaces
+	    if (/[^0-9-\s]+/.test(cc_number)) return false;
+
+		// The Luhn Algorithm. It's so pretty.
+	    var nCheck = 0, nDigit = 0, bEven = false;
+	    cc_number = cc_number.replace(/\D/g, "");
+
+	    for (var n = cc_number.length - 1; n >= 0; n--) {
+	        var cDigit = cc_number.charAt(n),
+	            nDigit = parseInt(cDigit, 10);
+
+	        if (bEven) {
+	            if ((nDigit *= 2) > 9) nDigit -= 9;
+	        }
+
+	        nCheck += nDigit;
+	        bEven = !bEven;
+	    }
+
+	    return (nCheck % 10) == 0;
+
+	}
+};
