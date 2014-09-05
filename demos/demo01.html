@@ -12,24 +12,34 @@
 			<h1>Locomotive Validate</h1>
 			<h2>Basic form</h2>
 
-			<form class="lvalidate example1" method="post">
+			<form class="lvalidate example1" id="demo01" method="post">
 				<label>
 					<span class="label">Text input</span>
-					<input type="text" class="required">
+					<input type="text" required name="text01">
 				</label>
 
 				<label>
 					<span class="label">Email input</span>
-					<input type="email" class="required">
-				</label>           
+					<input type="email" required name="text02">
+				</label>        
+
+				<label>
+					<span class="label">Credit card number</span>
+					<input type="string" data-rules="required credit-card" name="credit_card01">
+				</label>   
+
+				<label>
+					<span class="label">Regular expression</span>
+					<input type="string" data-rules="regexp" data-regexp="^\w+$" name="regexp01">
+				</label> 
 
 				<label>
 					<span class="label">Textarea</span>
-					<textarea class="required"></textarea>
+					<textarea required name="textarea01"></textarea>
 				</label>   
 
 				<span class="label">Select</span>
-				<select class="required">
+				<select required name="select01">
 					<option value="">Select</option>
 					<option value="option1">Option 1</option>
 					<option value="option1">Option 2</option>
@@ -39,19 +49,19 @@
 				<div class="radios cf">
 					<span class="label">Radio</span>
 					<label>Option1
-						<input type="radio"  name="radio" class="required" value="option1">
+						<input type="radio"  name="radio01" data-rules="required" value="option1">
 					</label>
 
 					<label>Option2
-						<input type="radio"  name="radio" value="option2">
+						<input type="radio"  name="radio01" value="option2">
 					</label>
 
 					<label>Option3
-						<input type="radio"  name="radio" value="option3">   
+						<input type="radio"  name="radio01" value="option3">   
 					</label> 
 
 					<label>Option4
-						<input type="radio"  name="radio" value="option3">   
+						<input type="radio"  name="radio01" value="option3">   
 					</label>				                
 				</div>   
 				<!-- 
@@ -144,14 +154,14 @@ $(document).ready(function() {
 				*	act differently on each inputs and then submit the form.
 				*
 				*/
-				$(".example1").lvalidate({
+				$("#demo01").lvalidate({
 					onError: function (elem, code) {
 						elem.addClass('error');
 
 						//radio validation
 						if (elem.is(':radio')) {
-							var $radio = elem.parent();
-							$radio.addClass("error");
+							var $radio = elem.parent().parent();
+							$radio.addClass('error');
 						}
 
 
@@ -161,7 +171,7 @@ $(document).ready(function() {
 
 						//radio validation
 						if (elem.is(':radio')) {
-							var $radio = elem.parent();
+							var $radio = elem.parent().parent();
 							$radio.removeClass("error");
 						}
 
@@ -173,11 +183,11 @@ $(document).ready(function() {
 						form.submit();
 					},
 					invalid: function (form) {
-						form.addClass("error");
+						form.addClass('error');
 					}
 				}); 
 
-				$("input[type=radio],select").uniform();
+				$("input[type=radio], select").uniform();
 			});
 		</script>
 	</body>

@@ -43,7 +43,12 @@ module.exports = function(grunt) {
 				separator: ';'
 			},
 			dist: {
-				src: ['src/**/*.js'],
+				src: [
+					'src/charcoal.form.validate.js',
+					'src/charcoal.form.validate.input.js',
+					'src/charcoal.form.validate.rule.js',
+					'src/charcoal.form.validate.rule.*.js',
+				],
 				dest: 'dist/charcoal.validate.js',
 			}
 		},
